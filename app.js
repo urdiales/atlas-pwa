@@ -16,6 +16,27 @@ const CONFIG = {
 // State
 let currentFile = null;
 let messageHistory = [];
+let sessionId = null;
+
+// Session Management
+function getOrCreateSessionId() {
+    let storedSessionId = localStorage.getItem('atlas_session_id');
+
+    if (!storedSessionId) {
+        // Generate new UUID v4
+        storedSessionId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+        localStorage.setItem('atlas_session_id', storedSessionId);
+        console.log('🆔 New session created:', storedSessionId);
+    } else {
+        console.log('🆔 Existing session:', storedSessionId);
+    }
+
+    return storedSessionId;
+}
 
 // DOM Elements
 const elements = {
@@ -95,6 +116,9 @@ function init() {
         console.log('🔒 Waiting for PIN authentication...');
         return; // Don't initialize app until authenticated
     }
+
+    // Initialize session ID
+    sessionId = getOrCreateSessionId();
 
     // Register service worker
     if ('serviceWorker' in navigator) {
@@ -236,12 +260,16 @@ async function sendToAPI(message, file) {
         // For file uploads, use FormData
         const formData = new FormData();
         formData.append('message', message);
+        formData.append('session_id', sessionId);
         formData.append('file', file);
         body = formData;
     } else {
         // For text-only, use JSON
         headers['Content-Type'] = 'application/json';
-        body = JSON.stringify({ message: message });
+        body = JSON.stringify({
+            message: message,
+            session_id: sessionId
+        });
     }
 
     const response = await fetch(CONFIG.apiEndpoint, {
