@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ATLAS - AI Terminal Learning Assistant System">
+    <meta name="theme-color" content="#1a1a2e">
+
+    <title>ATLAS</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">⚡ ATLAS</h1>
+                <div class="header-subtitle">AI Terminal Learning Assistant System</div>
+            </div>
+        </header>
+
+        <!-- Chat Container -->
+        <main class="chat-container" id="chatContainer">
+            <!-- Messages will be inserted here -->
+            <div class="welcome-message">
+                <h2>Welcome to ATLAS</h2>
+                <p>Your AI assistant with file analysis capabilities.</p>
+                <p class="help-text">
+                    💬 Type a message or upload files (PDF, DOCX, images, code)<br>
+                    📸 Images will be analyzed with OCR<br>
+                    📄 Documents will have text extracted
+                </p>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="input-area">
+            <!-- File Upload Preview -->
+            <div id="filePreview" class="file-preview hidden">
+                <div class="file-info">
+                    <span id="fileName"></span>
+                    <button id="removeFile" class="btn-icon" aria-label="Remove file">✕</button>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <form id="chatForm" class="chat-form">
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.js,.py,.java,.cpp,.c,.h,.cs,.html,.css,.json,.xml,.md"
+                    hidden
+                >
+
+                <button
+                    type="button"
+                    id="fileButton"
+                    class="btn-icon"
+                    aria-label="Upload file"
+                    title="Upload file (PDF, DOCX, images, code)"
+                >
+                    📎
+                </button>
+
+                <textarea
+                    id="messageInput"
+                    class="message-input"
+                    placeholder="Type a message... (Shift+Enter for new line)"
+                    rows="1"
+                    required
+                ></textarea>
+
+                <button
+                    type="submit"
+                    id="sendButton"
+                    class="btn-send"
+                    aria-label="Send message"
+                >
+                    <span class="send-icon">➤</span>
+                </button>
+            </form>
+
+            <!-- Status Indicator -->
+            <div id="statusIndicator" class="status-indicator hidden">
+                <span class="status-text">Processing...</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
