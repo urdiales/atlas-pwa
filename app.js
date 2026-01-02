@@ -4,6 +4,7 @@
 // Configuration
 const CONFIG = {
     apiEndpoint: 'https://n8n.srv1194059.hstgr.cloud/webhook/atlas-pwa',
+    correctPIN: '135011633', // PIN for authentication
     maxFileSize: 10 * 1024 * 1024, // 10MB
     supportedFileTypes: {
         documents: ['.pdf', '.docx', '.txt', '.md'],
@@ -30,9 +31,70 @@ const elements = {
     statusIndicator: document.getElementById('statusIndicator')
 };
 
+// PIN Authentication
+function checkAuthentication() {
+    const isAuthenticated = localStorage.getItem('atlas_authenticated') === 'true';
+    const pinOverlay = document.getElementById('pinOverlay');
+    const app = document.getElementById('app');
+
+    if (isAuthenticated) {
+        // Already authenticated - hide PIN overlay
+        pinOverlay.style.display = 'none';
+        app.style.display = 'block';
+        return true;
+    } else {
+        // Not authenticated - show PIN overlay
+        pinOverlay.style.display = 'flex';
+        app.style.display = 'none';
+        setupPINForm();
+        return false;
+    }
+}
+
+function setupPINForm() {
+    const pinForm = document.getElementById('pinForm');
+    const pinInput = document.getElementById('pinInput');
+    const pinError = document.getElementById('pinError');
+
+    pinForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const enteredPIN = pinInput.value.trim();
+
+        if (enteredPIN === CONFIG.correctPIN) {
+            // Correct PIN - authenticate
+            localStorage.setItem('atlas_authenticated', 'true');
+            pinError.classList.add('hidden');
+
+            // Hide PIN overlay, show app
+            document.getElementById('pinOverlay').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+
+            // Focus on message input
+            elements.messageInput.focus();
+        } else {
+            // Wrong PIN - show error
+            pinError.classList.remove('hidden');
+            pinInput.value = '';
+            pinInput.focus();
+
+            // Shake animation
+            pinError.style.animation = 'none';
+            setTimeout(() => {
+                pinError.style.animation = 'shake 0.3s';
+            }, 10);
+        }
+    });
+}
+
 // Initialize App
 function init() {
     console.log('🚀 ATLAS PWA Initializing...');
+
+    // Check authentication first
+    if (!checkAuthentication()) {
+        console.log('🔒 Waiting for PIN authentication...');
+        return; // Don't initialize app until authenticated
+    }
 
     // Register service worker
     if ('serviceWorker' in navigator) {

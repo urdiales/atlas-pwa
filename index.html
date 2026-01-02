@@ -20,6 +20,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- PIN Login Overlay -->
+    <div id="pinOverlay" class="pin-overlay">
+        <div class="pin-container">
+            <div class="pin-logo">⚡</div>
+            <h2>ATLAS</h2>
+            <p class="pin-subtitle">Enter PIN to access</p>
+            <form id="pinForm" class="pin-form">
+                <input
+                    type="password"
+                    id="pinInput"
+                    class="pin-input"
+                    placeholder="Enter PIN"
+                    maxlength="10"
+                    autocomplete="off"
+                    required
+                    autofocus
+                >
+                <button type="submit" class="pin-submit">Unlock</button>
+            </form>
+            <div id="pinError" class="pin-error hidden">❌ Incorrect PIN</div>
+        </div>
+    </div>
+
     <div id="app">
         <!-- Header -->
         <header class="app-header">
