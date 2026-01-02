@@ -119,8 +119,22 @@ function init() {
     console.log('✅ ATLAS PWA Ready');
 }
 
+// Logout Function
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('atlas_authenticated');
+        location.reload();
+    }
+}
+
 // Event Listeners
 function setupEventListeners() {
+    // Logout button
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', logout);
+    }
+
     // Form submission
     elements.chatForm.addEventListener('submit', handleSubmit);
 
