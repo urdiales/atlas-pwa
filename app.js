@@ -153,16 +153,25 @@ async function handleSubmit(e) {
 
 // Send to n8n API
 async function sendToAPI(message, file) {
-    const formData = new FormData();
-    formData.append('message', message);
+    let body;
+    let headers = {};
 
     if (file) {
+        // For file uploads, use FormData
+        const formData = new FormData();
+        formData.append('message', message);
         formData.append('file', file);
+        body = formData;
+    } else {
+        // For text-only, use JSON
+        headers['Content-Type'] = 'application/json';
+        body = JSON.stringify({ message: message });
     }
 
     const response = await fetch(CONFIG.apiEndpoint, {
         method: 'POST',
-        body: formData
+        headers: headers,
+        body: body
     });
 
     if (!response.ok) {
