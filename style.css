@@ -187,6 +187,26 @@ body {
     transform: scale(1.05);
 }
 
+.install-link {
+    position: absolute;
+    top: 0.75rem;
+    right: 4.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.install-link:hover {
+    color: var(--accent-color);
+    background: rgba(233, 69, 96, 0.05);
+}
+
 .app-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -566,7 +586,7 @@ body {
     }
 }
 
-/* PWA Install Prompt */
+/* PWA Install Prompt - OLD BANNER (Not used - replaced with install-link)
 .install-prompt {
     position: fixed;
     bottom: 80px;
@@ -610,3 +630,4 @@ body {
 .install-prompt button:hover {
     background: #ff5577;
 }
+*/

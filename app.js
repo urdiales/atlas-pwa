@@ -451,26 +451,28 @@ function setupPWAInstall() {
 }
 
 function showInstallPrompt(deferredPrompt) {
-    const promptDiv = document.createElement('div');
-    promptDiv.className = 'install-prompt';
-    promptDiv.innerHTML = `
-        <span>📱 Install A.T.L.A.S. app for quick access</span>
-        <button id="installButton">Install</button>
-        <button id="dismissButton" style="background: transparent; border: 1px solid var(--border-color);">Not now</button>
-    `;
+    // Create small, static install link in header
+    const installLink = document.createElement('a');
+    installLink.className = 'install-link';
+    installLink.innerHTML = '📱 Install App';
+    installLink.href = '#';
+    installLink.title = 'Install A.T.L.A.S. as an app';
 
-    document.body.appendChild(promptDiv);
+    // Add to header next to logout button
+    const headerContent = document.querySelector('.header-content');
+    if (headerContent) {
+        headerContent.appendChild(installLink);
+    }
 
-    document.getElementById('installButton').addEventListener('click', async () => {
-        promptDiv.remove();
+    installLink.addEventListener('click', async (e) => {
+        e.preventDefault();
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         console.log(`User response to install prompt: ${outcome}`);
+        if (outcome === 'accepted') {
+            installLink.remove(); // Remove link after successful install
+        }
         deferredPrompt = null;
-    });
-
-    document.getElementById('dismissButton').addEventListener('click', () => {
-        promptDiv.remove();
     });
 }
 
