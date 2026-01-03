@@ -1,7 +1,7 @@
 {
-  "name": "ATLAS - AI Terminal Learning Assistant System",
-  "short_name": "ATLAS",
-  "description": "AI assistant with file analysis capabilities",
+  "name": "A.T.L.A.S. - AI Tool for Learning, Automation, and Search",
+  "short_name": "A.T.L.A.S.",
+  "description": "AI assistant powered by CORTEX knowledge base with semantic search",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1a1a2e",

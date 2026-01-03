@@ -454,7 +454,7 @@ function showInstallPrompt(deferredPrompt) {
     const promptDiv = document.createElement('div');
     promptDiv.className = 'install-prompt';
     promptDiv.innerHTML = `
-        <span>📱 Install ATLAS app for quick access</span>
+        <span>📱 Install A.T.L.A.S. app for quick access</span>
         <button id="installButton">Install</button>
         <button id="dismissButton" style="background: transparent; border: 1px solid var(--border-color);">Not now</button>
     `;
